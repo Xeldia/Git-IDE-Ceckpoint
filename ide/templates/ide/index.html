@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Choose IDE</title>
+  <style>
+    body { font-family: Arial, sans-serif; text-align: center; margin-top: 100px; }
+    .btn {
+      display: inline-block;
+      padding: 15px 30px;
+      margin: 20px;
+      font-size: 20px;
+      border-radius: 10px;
+      text-decoration: none;
+      color: white;
+      background: #007acc;
+    }
+    .btn:hover { background: #005f99; }
+  </style>
+</head>
+<body>
+  <h1>Welcome to the Mini IDE</h1>
+  <p>Select your language:</p>
+
+<a href="{% url 'python_ide' %}" class="btn">🐍 Python IDE</a>
+<a href="{% url 'java_ide' %}" class="btn">☕ Java IDE</a>
+
+</body>
+</html>

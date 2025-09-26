@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Java IDE</title>
+</head>
+<body>
+  <h2>Java IDE</h2>
+
+  <form id="codeForm" method="post">
+    <textarea name="code" id="code" rows="10" cols="60">
+public class Main {
+  public static void main(String[] args) {
+    System.out.println("Hello Java");
+  }
+}
+    </textarea>
+    <br><br>
+    <button type="button" onclick="runCode()">Run</button>
+  </form>
+
+  <pre id="output"></pre>
+
+  <script>
+    async function runCode() {
+      const form = document.getElementById("codeForm");
+      const formData = new FormData(form);
+      formData.append("language", "java");
+
+      let res = await fetch("/run/", {   // adjust endpoint if needed
+        method: "POST",
+        body: formData
+      });
+
+      let data = await res.json();
+      document.getElementById("output").innerText = data.output;
+    }
+  </script>
+</body>
+</html>

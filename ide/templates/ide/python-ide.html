@@ -1,0 +1,36 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Python Online IDE</title>
+    <!-- CodeMirror CSS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/dracula.min.css">
+
+    <!-- Local CSS -->
+    <link rel="stylesheet" href="{% static 'ide/ide.css' %}">
+
+    <!-- Pyodide -->
+    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js"></script>
+
+    <!-- CodeMirror JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/python/python.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/matchbrackets.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/closebrackets.min.js"></script>
+</head>
+<body>
+    <h1>Maka run nig python i swear!!!</h1>
+
+    <div id="editor-container">
+        <textarea id="code">print("Hello World")</textarea><br>
+        <button id="runBtn">Run</button>
+    </div>
+
+    <h2>Output:</h2>
+    <pre id="output"></pre>
+
+    <!-- Local JS -->
+    <script src="{% static 'ide/ide.js' %}"></script>
+</body>
+</html>
