@@ -25,7 +25,8 @@ SECRET_KEY = 'django-insecure-k-y-(2(un342dq7c8xqcb+17ixle5=tul=1x=p9ofwj1zveh5p
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["git-ide-ceckpoint.onrender.com", "localhost", "127.0.0.1"]
+
 
 
 # Application definition
