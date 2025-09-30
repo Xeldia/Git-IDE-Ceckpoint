@@ -1,36 +1,43 @@
-{% load static %}
-<!DOCTYPE html>
-<html>
+{% load static %} 
+<!doctype html>
+<html lang="en">
 <head>
-    <title>Python Online IDE</title>
-    <!-- CodeMirror CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/theme/dracula.min.css">
+  <meta charset="utf-8" />
+  <title>Python IDE</title>
 
-    <!-- Local CSS -->
-    <link rel="stylesheet" href="{% static 'ide/ide.css' %}">
+  <!-- Ace Editor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.0/ace.js"></script>
 
-    <!-- Pyodide -->
-    <script src="https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js"></script>
+  <!-- Pyodide -->
+  <script src="https://cdn.jsdelivr.net/pyodide/v0.24.0/full/pyodide.js"></script>
 
-    <!-- CodeMirror JS -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/codemirror.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/mode/python/python.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/matchbrackets.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.65.14/addon/edit/closebrackets.min.js"></script>
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/ide.css' %}">
 </head>
 <body>
-    <h1>Maka run nig python i swear!!!</h1>
-
-    <div id="editor-container">
-        <textarea id="code">print("Hello World")</textarea><br>
-        <button id="runBtn">Run</button>
+  <div id="ide-root">
+    <!-- Toolbar -->
+    <div id="toolbar">
+      <button id="runBtn">Run ▶</button>
+      <button id="stopBtn" disabled>Stop ■</button>
+      <button id="saveBtn">Save File</button>
+      <button id="loadBtn">Load File</button>
+      <input id="filename" placeholder="main.py" />
+      <input id="pkgInput" placeholder="pip install (e.g. rich)" />
+      <button id="pipBtn">Install</button>
     </div>
 
-    <h2>Output:</h2>
-    <pre id="output"></pre>
+    <!-- Editor + Console -->
+    <div id="editor-console-wrap">
+      <div id="editor" aria-label="Python editor"></div>
+      <div id="console">
+        <div id="console-header">Console</div>
+        <pre id="console-output"></pre>
+      </div>
+    </div>
+  </div>
 
-    <!-- Local JS -->
-    <script src="{% static 'ide/ide.js' %}"></script>
+  <!-- JS -->
+  <script src="{% static 'js/ide.js' %}"></script>
 </body>
 </html>

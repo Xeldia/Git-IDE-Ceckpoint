@@ -1,40 +1,88 @@
-# Byte-compiled / optimized / DLL files
+# Python bytecode files
 __pycache__/
 *.py[cod]
+*$py.class
 
 # Virtual environment
 venv/
-.env
 .venv/
 
-# SQLite database
-db.sqlite3
-
-# Django stuff
+# Django-specific (if you use it)
 *.log
 *.pot
-*.pyc
-local_settings.py
+*.db
+*.sqlite3
+db.sqlite3
+media/
 
-# Editor / IDE settings
+# Static/Build files
+staticfiles/
+static_root/
+dist/
+build/
+node_modules/
+
+# Environment variables
+.env
+*.env
+
+# IDE settings
 .vscode/
 .idea/
 
-# Static, media, uploads
-static/
-media/
+# OS-specific files
+.DS_Store
+Thumbs.db
 
-# Test / coverage reports
+# Coverage/testing
 htmlcov/
-.coverage
-pytest_cache/
 .tox/
+.coverage
+coverage.xml
+*.cover
+*.py,cover
+.cache
+nosetests.xml
+test.db
 
-# Java compile/classes artifacts
-*.class
-*.jar
+# Build/packaging
+*.egg
+*.egg-info/
+eggs/
+parts/
+var/
+sdist/
+develop-eggs/
+.installed.cfg
+lib/
+lib64/
 
-# C executable / object files
-*.o
-*.out
-temp
+# Pip logs
+pip-log.txt
+pip-delete-this-directory.txt
+
+# MyPy/Pyre/Pytype
+.mypy_cache/
+.dmypy.json
+dmypy.json
+.pyre/
+.pytype/
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# Local settings
+local_settings.py
+
+# ===== Project-specific =====
+# Don’t upload temporary test files
+*.bak
+*.tmp
+
+# Logs
+logs/
+*.log
+
+# If you generate user code/output files
+output/
+saved_files/
