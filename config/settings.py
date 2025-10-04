@@ -17,7 +17,7 @@ SECRET_KEY = 'django-insecure-k-y-(2(un342dq7c8xqcb+17ixle5=tul=1x=p9ofwj1zveh5p
 DEBUG = True
 
 # Allow Render domain + localhost
-ALLOWED_HOSTS = ["git-ide-ceckpoint-1.onrender.com", "localhost", "127.0.0.1"]
+ALLOWED_HOSTS = ["git-ide-ceckpoint-fjg5.onrender.com", "localhost", "127.0.0.1"]
 
 # Application definition
 INSTALLED_APPS = [
