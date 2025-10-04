@@ -6,13 +6,16 @@ __pycache__/
 # Virtual environment
 venv/
 .venv/
+env/
+ENV/
 
-# Django-specific (if you use it)
+# Django-specific
 *.log
 *.pot
 *.db
 *.sqlite3
 db.sqlite3
+db.sqlite3-journal
 media/
 
 # Static/Build files
@@ -20,18 +23,27 @@ staticfiles/
 static_root/
 dist/
 build/
-node_modules/
 
 # Environment variables
 .env
 *.env
+.env.local
+.env.*.local
 
 # IDE settings
 .vscode/
 .idea/
+*.swp
+*.swo
+*~
 
 # OS-specific files
 .DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
 Thumbs.db
 
 # Coverage/testing
@@ -44,6 +56,7 @@ coverage.xml
 .cache
 nosetests.xml
 test.db
+.pytest_cache/
 
 # Build/packaging
 *.egg
@@ -74,8 +87,12 @@ dmypy.json
 # Local settings
 local_settings.py
 
+# Celery
+celerybeat-schedule
+celerybeat.pid
+
 # ===== Project-specific =====
-# Don’t upload temporary test files
+# Don't upload temporary test files
 *.bak
 *.tmp
 
@@ -86,3 +103,13 @@ logs/
 # If you generate user code/output files
 output/
 saved_files/
+
+# User uploaded files (if any)
+uploads/
+
+# Compiled Java classes (if testing Java locally)
+*.class
+
+# Migration files (OPTIONAL - uncomment if you don't want to track migrations)
+# */migrations/*.py
+# !*/migrations/__init__.py

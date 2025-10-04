@@ -42,12 +42,15 @@ html, body, #ide-root {
   cursor: pointer;
   transition: background 0.2s ease;
 }
-#toolbar button:hover {
+
+#toolbar button:hover:not([disabled]) {
   background: #1d4ed8;
 }
+
 #toolbar button[disabled] {
   opacity: 0.5;
   cursor: not-allowed;
+  background: #374151;
 }
 
 #toolbar input {
@@ -70,6 +73,7 @@ html, body, #ide-root {
   flex: 2;
   background: var(--editor-bg);
   border-bottom: 1px solid var(--border);
+  border: none !important;
 }
 
 /* Console */
@@ -86,6 +90,7 @@ html, body, #ide-root {
   color: var(--muted);
   padding: 6px 10px;
   border-bottom: 1px solid var(--border);
+  background: var(--toolbar-bg);
 }
 
 #console-output {
@@ -97,4 +102,44 @@ html, body, #ide-root {
   font-size: 13px;
   line-height: 1.4;
   white-space: pre-wrap;
+  color: var(--text);
+}
+
+/* Remove ACE editor print margin line */
+.ace_print-margin {
+  display: none !important;
+}
+
+/* ACE editor gutter styling */
+.ace_gutter {
+  background: var(--editor-bg) !important;
+  color: var(--muted) !important;
+  border-right: none !important;
+}
+
+.ace_gutter-layer {
+  background: var(--editor-bg) !important;
+}
+
+/* Scrollbar styling */
+#console-output::-webkit-scrollbar,
+.ace_scrollbar::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#console-output::-webkit-scrollbar-track,
+.ace_scrollbar::-webkit-scrollbar-track {
+  background: var(--console-bg);
+}
+
+#console-output::-webkit-scrollbar-thumb,
+.ace_scrollbar::-webkit-scrollbar-thumb {
+  background: var(--border);
+  border-radius: 4px;
+}
+
+#console-output::-webkit-scrollbar-thumb:hover,
+.ace_scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #4b5563;
 }

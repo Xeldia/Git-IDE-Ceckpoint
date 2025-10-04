@@ -1,40 +1,38 @@
-<!DOCTYPE html>
+{% load static %} 
+<!doctype html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="utf-8" />
   <title>Java IDE</title>
+
+  <!-- Ace Editor -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.15.0/ace.js"></script>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="{% static 'css/Design-ide.css' %}">
 </head>
 <body>
-  <h2>Java IDE</h2>
+  <div id="ide-root">
+    <!-- Toolbar -->
+    <div id="toolbar">
+      <button id="runBtn">Run ▶</button>
+      <button id="stopBtn" disabled>Stop ■</button>
+      <button id="saveBtn">Save File</button>
+      <button id="loadBtn">Load File</button>
+      <input id="filename" placeholder="Main.java" />
+    </div>
 
-  <form id="codeForm" method="post">
-    <textarea name="code" id="code" rows="10" cols="60">
-public class Main {
-  public static void main(String[] args) {
-    System.out.println("Hello Java");
-  }
-}
-    </textarea>
-    <br><br>
-    <button type="button" onclick="runCode()">Run</button>
-  </form>
+    <!-- Editor + Console -->
+    <div id="editor-console-wrap">
+      <div id="editor" aria-label="Java editor"></div>
+      <div id="console">
+        <div id="console-header">Console</div>
+        <pre id="console-output"></pre>
+      </div>
+    </div>
+  </div>
 
-  <pre id="output"></pre>
-
-  <script>
-    async function runCode() {
-      const form = document.getElementById("codeForm");
-      const formData = new FormData(form);
-      formData.append("language", "java");
-
-      let res = await fetch("/run/", {   // adjust endpoint if needed
-        method: "POST",
-        body: formData
-      });
-
-      let data = await res.json();
-      document.getElementById("output").innerText = data.output;
-    }
-  </script>
+  <!-- JS -->
+  <script src="{% static 'js/java-ide.js' %}"></script>
 </body>
 </html>
