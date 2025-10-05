@@ -14,9 +14,12 @@ app.get('/health', (req, res) => {
   res.json({ status: 'ok', message: 'Java Executor Server Running' });
 });
 
+// Server configuration from environment variables
 const PORT = process.env.PORT || 8080;
-const server = app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
+const HOST = process.env.HOST || '0.0.0.0'; // Listen on all network interfaces
+const MAX_EXECUTION_TIME = parseInt(process.env.MAX_EXECUTION_TIME || '30000'); // 30 seconds by default
+const server = app.listen(PORT, HOST, () => {
+  console.log(`🚀 Server running on ${HOST}:${PORT}`);
 });
 
 // WebSocket server
@@ -151,17 +154,17 @@ wss.on('connection', (ws) => {
           cleanup();
         });
 
-        // Timeout after 30 seconds
+        // Timeout based on MAX_EXECUTION_TIME environment variable
         setTimeout(() => {
           if (javaProcess) {
             javaProcess.kill('SIGTERM');
             ws.send(JSON.stringify({ 
               type: 'error', 
-              data: '\n[Execution timeout - 30 seconds exceeded]\n' 
+              data: `\n[Execution timeout - ${MAX_EXECUTION_TIME/1000} seconds exceeded]\n` 
             }));
             ws.send(JSON.stringify({ type: 'done', success: false }));
           }
-        }, 30000);
+        }, MAX_EXECUTION_TIME);
       });
 
     } catch (err) {
@@ -219,4 +222,15 @@ function extractClassName(code) {
   return null;
 }
 
-console.log('✅ WebSocket server ready on ws://localhost:' + PORT);
+const serverIp = require('os').networkInterfaces();
+console.log('✅ WebSocket server ready on:');
+console.log(`- Local: ws://localhost:${PORT}`);
+// Log all available network interfaces for connection
+Object.keys(serverIp).forEach(interfaceName => {
+  const interfaces = serverIp[interfaceName];
+  interfaces.forEach(iface => {
+    if (iface.family === 'IPv4' && !iface.internal) {
+      console.log(`- Network: ws://${iface.address}:${PORT}`);
+    }
+  });
+});

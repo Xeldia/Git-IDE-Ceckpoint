@@ -37,7 +37,15 @@ public class Main {
   let isRunning = false;
   let inputBox = null;
 
-  const WS_URL = 'ws://localhost:8080';
+  // Get the current hostname and use it to connect to the Java server
+  // For Render deployment, we need to handle both local and production environments
+  const isProduction = window.location.hostname.includes('render.com');
+  
+  // Since both services are running on the same domain in production,
+  // we just need to use the correct WebSocket protocol and port
+  const WS_URL = isProduction 
+    ? `wss://${window.location.hostname}/ws` // WebSocket endpoint on same domain
+    : `ws://${window.location.hostname}:8080`;
 
   function writeConsole(text, type = "log") {
     const line = document.createElement("div");
@@ -175,6 +183,8 @@ public class Main {
 
       ws.onerror = (error) => {
         writeConsole("Connection error. Make sure the Java server is running at " + WS_URL, "err");
+        writeConsole("If you're accessing from another device, ensure both devices are on the same network.", "err");
+        writeConsole("Check that port 8080 is not blocked by a firewall.", "err");
         cleanup();
       };
 
