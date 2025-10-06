@@ -26,8 +26,8 @@ WORKDIR /app
 # Make start script executable
 RUN chmod +x start.sh
 
-# Expose the port that will be used by Render
-EXPOSE $PORT
+# Expose default port (Render assigns actual port dynamically)
+EXPOSE 8000
 
 # Start the application
 CMD ["/app/start.sh"]
