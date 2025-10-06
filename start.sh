@@ -7,6 +7,10 @@ python3 manage.py collectstatic --noinput
 echo "Applying database migrations..."
 python3 manage.py migrate --noinput
 
+echo "Starting Java WebSocket server..."
+cd java-executor-server && node server.js &
+cd ..
+
 echo "Starting Gunicorn..."
 gunicorn config.wsgi:application --bind 0.0.0.0:$PORT &
 
