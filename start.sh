@@ -1,23 +1,17 @@
 #!/bin/bash
-set -e  # Stop script if any command fails
+set -e
 
-# Copy nginx configuration and substitute PORT variable
-envsubst '${PORT}' < /app/nginx.conf > /etc/nginx/nginx.conf
-
-# Ensure Nginx run directory exists
-mkdir -p /run/nginx
-
-# Start Java executor server in the background
-cd /app/java-executor-server
-node server.js &
-
-# Run Django migrations and collect static files
-cd /app
-python3 manage.py migrate --noinput
+echo "Collecting static files..."
 python3 manage.py collectstatic --noinput
 
-# Start Gunicorn in the background
-gunicorn config.wsgi:application --bind 0.0.0.0:8000 &
+echo "Applying database migrations..."
+python3 manage.py migrate --noinput
 
-# Finally, start Nginx in the foreground (so container stays alive)
+echo "Starting Gunicorn..."
+gunicorn config.wsgi:application --bind 0.0.0.0:$PORT &
+
+# Wait a few seconds to make sure Gunicorn is ready
+sleep 5
+
+echo "Starting Nginx..."
 nginx -g "daemon off;"
