@@ -11,7 +11,7 @@ RUN apt-get update && apt-get install -y \
 # Set working directory
 WORKDIR /app
 
-# Copy application files
+# Copy all project files
 COPY . .
 
 # Install Python dependencies
@@ -22,11 +22,16 @@ WORKDIR /app/java-executor-server
 RUN npm install
 WORKDIR /app
 
-# Make start script executable
-RUN chmod +x start.sh
+# Make sure start.sh is executable
+RUN chmod +x /app/start.sh
 
-# Expose the port that will be used by Render
-EXPOSE $PORT
+# Environment setup (Render provides PORT automatically)
+ENV PYTHONUNBUFFERED=1
+ENV DJANGO_SETTINGS_MODULE=config.settings
+ENV PORT=8000
 
-# Start the application
-CMD ["/app/start.sh"]
+# Expose Django's port
+EXPOSE 8000
+
+# Start everything through start.sh
+CMD ["bash", "/app/start.sh"]

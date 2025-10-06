@@ -1,21 +1,20 @@
-#!/bin/bash
-set -e
+#!/usr/bin/env bash
+set -o errexit  # Exit on error
+set -o pipefail
+set -o nounset
 
-echo "Collecting static files..."
-python3 manage.py collectstatic --noinput
+echo "📁 Moving into /app directory..."
+cd /app
 
-echo "Applying database migrations..."
+echo "🔧 Running Django migrations..."
 python3 manage.py migrate --noinput
 
-echo "Starting Java WebSocket server..."
-cd java-executor-server && node server.js &
-cd ..
+echo "🎨 Collecting static files..."
+python3 manage.py collectstatic --noinput
 
-echo "Starting Gunicorn..."
-gunicorn config.wsgi:application --bind 0.0.0.0:$PORT &
+echo "🚀 Starting Gunicorn (Django backend)..."
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 &
 
-# Wait a few seconds to make sure Gunicorn is ready
-sleep 5
-
-echo "Starting Nginx..."
-nginx -g "daemon off;"
+echo "🧠 Starting Java executor server..."
+cd /app/java-executor-server
+npm start
