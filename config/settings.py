@@ -16,8 +16,8 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "dev-secret-key")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-# Allow Render domain + localhost
-ALLOWED_HOSTS = ["git-ide-ceckpoint-fjg5.onrender.com", "localhost", "127.0.0.1"]
+# Allow everything during initial deployment (can restrict later)
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 INSTALLED_APPS = [
@@ -27,9 +27,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "channels",
-    "ide",  
-    
+    'channels',
+    'ide',
 ]
 
 MIDDLEWARE = [
@@ -101,7 +100,11 @@ STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+
 # Default primary key field type
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
+# Render Deployment Configuration
+RENDER = os.environ.get('RENDER', None)
+if REN
