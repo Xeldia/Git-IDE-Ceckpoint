@@ -25,13 +25,16 @@ WORKDIR /app
 # Make sure start.sh is executable
 RUN chmod +x /app/start.sh
 
-# Environment setup (Render provides PORT automatically)
+# Environment setup
 ENV PYTHONUNBUFFERED=1
 ENV DJANGO_SETTINGS_MODULE=config.settings
 ENV PORT=8000
 
-# Expose Django's port
+# Copy and configure nginx
+COPY nginx.conf /etc/nginx/nginx.conf
+
+# Expose Django + Nginx port
 EXPOSE 8000
 
-# Start everything through start.sh
+# Start the app
 CMD ["bash", "/app/start.sh"]

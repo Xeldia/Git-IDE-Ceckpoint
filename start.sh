@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -o errexit  # Exit on error
+set -o errexit
 set -o pipefail
 set -o nounset
 
@@ -17,4 +17,7 @@ gunicorn config.wsgi:application --bind 0.0.0.0:8000 &
 
 echo "🧠 Starting Java executor server..."
 cd /app/java-executor-server
-npm start
+npm start &
+
+echo "🌐 Starting Nginx..."
+nginx -g 'daemon off;'
