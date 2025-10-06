@@ -39,12 +39,12 @@ public class Main {
 
   // Get the current hostname and use it to connect to the Java server
   // For Render deployment, we need to handle both local and production environments
-  const isProduction = window.location.hostname.includes('render.com');
+  const isProduction = window.location.hostname.includes('onrender.com');
   
   // Since both services are running on the same domain in production,
   // we just need to use the correct WebSocket protocol and port
   const WS_URL = isProduction 
-    ? `wss://${window.location.hostname}/ws` // WebSocket endpoint on same domain
+    ? `wss://${window.location.host}/ws/` // WebSocket endpoint on same domain with trailing slash
     : `ws://${window.location.hostname}:8080`;
 
   function writeConsole(text, type = "log") {

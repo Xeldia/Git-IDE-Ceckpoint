@@ -1,33 +1,33 @@
 FROM node:18-slim
 
-# Install Python, OpenJDK, and Nginx
-RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-dev openjdk-17-jdk nginx && \
-    rm -rf /var/lib/apt/lists/*
+# Install system dependencies
+# Includes Python, Java, Nginx, and envsubst utility
+RUN apt-get update && apt-get install -y \
+    python3 python3-pip python3-dev \
+    openjdk-17-jdk \
+    nginx \
+    gettext-base \
+    && rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
 
-# Copy Django application
+# Copy application files
 COPY . .
 
 # Install Python dependencies
-RUN pip3 install --no-cache-dir --break-system-packages -r requirements.txt
+RUN pip3 install --no-cache-dir -r requirements.txt
 
-# Install Node.js dependencies for Java executor
+# Install Node.js dependencies for the Java executor service
 WORKDIR /app/java-executor-server
-RUN npm install --production
+RUN npm install
 WORKDIR /app
 
-# Create temp directory for Java executor
-RUN mkdir -p /app/java-executor-server/temp
+# Make start script executable
+RUN chmod +x start.sh
 
-# Expose ports
-EXPOSE 8000 8080
+# Expose the port that will be used by Render
+EXPOSE $PORT
 
-# Copy startup script
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
-
-# Start both services
+# Start the application
 CMD ["/app/start.sh"]

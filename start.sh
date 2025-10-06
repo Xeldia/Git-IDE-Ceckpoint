@@ -1,8 +1,8 @@
 #!/bin/bash
 set -e  # Stop script if any command fails
 
-# Copy nginx configuration
-cp /app/nginx.conf /etc/nginx/nginx.conf
+# Copy nginx configuration and substitute PORT variable
+envsubst '${PORT}' < /app/nginx.conf > /etc/nginx/nginx.conf
 
 # Ensure Nginx run directory exists
 mkdir -p /run/nginx
