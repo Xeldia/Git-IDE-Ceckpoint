@@ -8,7 +8,7 @@ RUN apt-get update && apt-get install -y \
     gettext-base && \
     rm -rf /var/lib/apt/lists/*
 
-# Set working directory
+# Set working directoryss
 WORKDIR /app
 
 # Copy all project files
