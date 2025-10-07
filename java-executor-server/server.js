@@ -15,7 +15,7 @@ app.get('/health', (req, res) => {
 });
 
 // Server configuration from environment variables
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 10000;
 const HOST = process.env.HOST || '0.0.0.0'; // Listen on all network interfaces
 const MAX_EXECUTION_TIME = parseInt(process.env.MAX_EXECUTION_TIME || '30000'); // 30 seconds by default
 const server = app.listen(PORT, HOST, () => {

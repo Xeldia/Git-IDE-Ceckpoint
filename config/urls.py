@@ -17,13 +17,18 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.http import JsonResponse
+from django.shortcuts import redirect
 
 def health_check(request):
     return JsonResponse({'status': 'healthy'})
 
+def home(request):
+    # Redirect to your IDE page
+    return redirect('/ide/')  # or wherever your main IDE is
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('health/', health_check, name='health_check'),
-    path('', include('ide.urls')),  # delegate root URLs to ide app
+    path('', home, name='home'),  # ADD THIS
+    path('ide/', include('ide.urls')),  # Your IDE app routes
 ]
-
