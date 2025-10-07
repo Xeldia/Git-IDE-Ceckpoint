@@ -8,7 +8,7 @@ SECRET_KEY = os.environ.get("SECRET_KEY", "unsafe-default-key")  # fallback for 
 DEBUG = os.environ.get("DEBUG", "False").lower() == "true"
 
 # Allow Render + localhost
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1").split(",")
+ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS", "localhost,127.0.0.1,code-it-sydo.onrender.com").split(",")
 
 # --- APPLICATIONS ---
 INSTALLED_APPS = [
