@@ -1,27 +1,37 @@
 #!/bin/bash
 set -e  # Stop script if any command fails
 
-# Copy nginx configuration
+echo "Setting up Nginx configuration..."
 cp /app/nginx.conf /etc/nginx/nginx.conf
-
-# Ensure Nginx run directory exists
 mkdir -p /run/nginx
 
-# Start Java executor server in the background
+echo "Starting Java executor server..."
 cd /app/java-executor-server
+export JAVA_OPTS="-Xmx200m -XX:MaxRAMPercentage=40"
 PORT=10000 node server.js &
-
-# Run Django migrations and collect static files
 cd /app
+
+echo "Running Django migrations..."
 python3 manage.py migrate --noinput
+
+echo "Collecting static files..."
 python3 manage.py collectstatic --noinput
 
-# Start Gunicorn in the background
+echo "Starting Django application..."
 gunicorn config.wsgi:application --bind 0.0.0.0:8000 &
 
-# Wait for services to be ready
-chmod +x /app/healthcheck.sh
-/app/healthcheck.sh
+echo "Waiting for services to be ready..."
+# Wait for Django
+while ! curl -s http://localhost:8000 >/dev/null; do
+    echo "Waiting for Django to be ready..."
+    sleep 2
+done
 
-# Finally, start Nginx in the foreground (so container stays alive)
-nginx -g "daemon off;"
+# Wait for Java WebSocket
+while ! curl -s http://localhost:10000 >/dev/null; do
+    echo "Waiting for Java WebSocket to be ready..."
+    sleep 2
+done
+
+echo "All services are ready! Starting Nginx..."
+exec nginx -g "daemon off;"

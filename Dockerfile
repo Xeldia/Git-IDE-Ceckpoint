@@ -27,20 +27,12 @@ RUN mkdir -p /app/java-executor-server/temp
 # Expose ports
 EXPOSE 80 10000
 
-# Set up entrypoint script
-RUN echo '#!/bin/bash\n\
-cp /app/nginx.conf /etc/nginx/nginx.conf\n\
-mkdir -p /run/nginx\n\
-# Set Java memory limits for Render free tier\n\
-export JAVA_OPTS="-Xmx200m -XX:MaxRAMPercentage=40"\n\
-cd /app/java-executor-server\n\
-PORT=10000 node server.js &\n\
-cd /app\n\
-python3 manage.py migrate --noinput\n\
-python3 manage.py collectstatic --noinput\n\
-gunicorn config.wsgi:application --bind 0.0.0.0:8000 &\n\
-nginx -g "daemon off;"\n\
-' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
+# Copy startup scripts
+COPY start.sh /app/start.sh
+COPY healthcheck.sh /app/healthcheck.sh
+
+# Make scripts executable
+RUN chmod +x /app/start.sh /app/healthcheck.sh
 
 # Start services
-CMD ["/app/entrypoint.sh"]
+CMD ["/app/start.sh"]
