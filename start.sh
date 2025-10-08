@@ -36,7 +36,7 @@ done
 echo "Starting Java executor server..."
 cd /app/java-executor-server
 export JAVA_OPTS="-Xmx200m -XX:MaxRAMPercentage=40"
-PORT=10000 node server.js &
+PORT=8080 node server.js &
 
 echo "Waiting for services to be ready..."
 # Wait for Django
