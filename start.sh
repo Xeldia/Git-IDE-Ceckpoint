@@ -22,13 +22,13 @@ gunicorn config.wsgi:application --bind 0.0.0.0:8000 &
 
 echo "Waiting for services to be ready..."
 # Wait for Django
-while ! curl -s http://localhost:8000 >/dev/null; do
+while ! nc -z localhost 8000 2>/dev/null; do
     echo "Waiting for Django to be ready..."
     sleep 2
 done
 
 # Wait for Java WebSocket
-while ! curl -s http://localhost:10000 >/dev/null; do
+while ! nc -z localhost 10000 2>/dev/null; do
     echo "Waiting for Java WebSocket to be ready..."
     sleep 2
 done

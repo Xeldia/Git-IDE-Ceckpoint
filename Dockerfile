@@ -1,9 +1,13 @@
 FROM node:18-slim
 
-# Install Python, OpenJDK, and Nginx with minimal extra packages
+# Install required packages
 RUN apt-get update && \
     apt-get install -y --no-install-recommends \
-    python3-minimal python3-pip openjdk-17-jdk-headless nginx && \
+    netcat-openbsd \
+    nginx \
+    openjdk-17-jdk-headless \
+    python3-minimal \
+    python3-pip && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
