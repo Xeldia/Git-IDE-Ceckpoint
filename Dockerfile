@@ -25,7 +25,7 @@ WORKDIR /app
 RUN mkdir -p /app/java-executor-server/temp
 
 # Expose ports
-EXPOSE 8000 8080
+EXPOSE 80 10000
 
 # Set up entrypoint script
 RUN echo '#!/bin/bash\n\
@@ -34,7 +34,7 @@ mkdir -p /run/nginx\n\
 # Set Java memory limits for Render free tier\n\
 export JAVA_OPTS="-Xmx200m -XX:MaxRAMPercentage=40"\n\
 cd /app/java-executor-server\n\
-node server.js &\n\
+PORT=10000 node server.js &\n\
 cd /app\n\
 python3 manage.py migrate --noinput\n\
 python3 manage.py collectstatic --noinput\n\
