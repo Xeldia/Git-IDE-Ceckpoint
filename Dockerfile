@@ -1,8 +1,10 @@
 FROM node:18-slim
 
-# Install Python, OpenJDK, and Nginx
+# Install Python, OpenJDK, and Nginx with minimal extra packages
 RUN apt-get update && \
-    apt-get install -y python3 python3-pip python3-dev openjdk-17-jdk nginx && \
+    apt-get install -y --no-install-recommends \
+    python3-minimal python3-pip openjdk-17-jdk-headless nginx && \
+    apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
 # Set working directory
@@ -29,6 +31,8 @@ EXPOSE 8000 8080
 RUN echo '#!/bin/bash\n\
 cp /app/nginx.conf /etc/nginx/nginx.conf\n\
 mkdir -p /run/nginx\n\
+# Set Java memory limits for Render free tier\n\
+export JAVA_OPTS="-Xmx200m -XX:MaxRAMPercentage=40"\n\
 cd /app/java-executor-server\n\
 node server.js &\n\
 cd /app\n\
