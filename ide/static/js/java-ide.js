@@ -45,7 +45,7 @@ public class Main {
   // we just need to use the correct WebSocket protocol and port
   const WS_URL = isProduction 
     ? `wss://${window.location.hostname}/ws` // WebSocket endpoint on same domain
-    : `ws://${window.location.hostname}:8080`;
+    : `ws://${window.location.hostname}:10000`; // Local development port
 
   function writeConsole(text, type = "log") {
     const line = document.createElement("div");
