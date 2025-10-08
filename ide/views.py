@@ -1,16 +1,23 @@
 from django.shortcuts import render
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 import json
 import requests
+import logging
 
-
-
+logger = logging.getLogger(__name__)
 
 def chat_view(request):
+    logger.info("Accessing chat view")
     return render(request, "ide/chat.html")
+
 def index(request):
-    return render(request, "ide/index.html")
+    logger.info("Accessing index view")
+    try:
+        return render(request, "ide/index.html")
+    except Exception as e:
+        logger.error(f"Error rendering index: {str(e)}")
+        return HttpResponse(f"Error: {str(e)}", status=500)
 
 def python_ide(request):
     return render(request, "ide/python-ide.html")
