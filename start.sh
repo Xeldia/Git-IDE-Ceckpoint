@@ -1,19 +1,31 @@
 #!/bin/bash
-set -e  # Stop script if any command fails
+set -ex  # Stop script if any command fails and print each command
+
+echo "=== Environment Info ==="
+echo "Python version: $(python3 --version)"
+echo "Node version: $(node --version)"
+echo "Current directory: $(pwd)"
+echo "Directory contents: $(ls -la)"
+echo "======================="
 
 echo "Setting up Nginx configuration..."
 cp /app/nginx.conf /etc/nginx/nginx.conf
 mkdir -p /run/nginx
+mkdir -p /app/static  # Create static directory to avoid warning
 
 echo "Running Django migrations..."
 cd /app
+echo "Current directory structure:"
+ls -R /app
+python3 manage.py check --deploy
 python3 manage.py migrate --noinput
 
 echo "Collecting static files..."
-python3 manage.py collectstatic --noinput
+python3 manage.py collectstatic --noinput -v 2
 
 echo "Starting Django application..."
-gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile - &
+export DJANGO_LOG_LEVEL=DEBUG
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile - --log-level debug &
 
 # Wait for Django to be ready
 while ! nc -z localhost 8000; do
