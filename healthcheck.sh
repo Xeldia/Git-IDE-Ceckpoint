@@ -1,7 +1,15 @@
 ﻿#!/bin/bash
 set -e
 
-echo "=echo "Java WebSocket (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
+echo "=echo "Java Web# Check WebSocket
+if ! nc -z 127.0.0.1 8080; then
+    echo "❌ WebSocket service check failed!"
+    echo "WebSocket logs:"
+    tail -n 50 /var/log/websocket.log 2>/dev/null || echo "No WebSocket logs found"
+    exit 1
+else
+    echo "✅ WebSocket service check passed!"
+fi0000): $(nc -zv 127.0.0.1 10000 2>&1)"
 echo "Nginx (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
 
 # Check Djangotarting Health Check ==="
@@ -28,8 +36,8 @@ check_service() {
 # Check if services are listening
 echo "Checking ports..."
 echo "Django (8000): $(nc -zv 127.0.0.1 8000 2>&1)"
-echo "WebSocket (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
-echo "Nginx (80): $(nc -zv 127.0.0.1 80 2>&1)"
+echo "WebSocket (8080): $(nc -zv 127.0.0.1 8080 2>&1)"
+echo "Nginx (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
 
 # Check Django
 if ! check_service "Django" "http://127.0.0.1:8000/" "200"; then
@@ -50,7 +58,7 @@ else
 fi
 
 # Check Nginx
-if ! check_service "Nginx" "http://127.0.0.1/" "200"; then
+if ! check_service "Nginx" "http://127.0.0.1:10000/" "200"; then
     echo "Nginx service check failed"
     echo "Nginx error log:"
     tail -n 50 /var/log/nginx/error.log 2>/dev/null || echo "No Nginx error log found"

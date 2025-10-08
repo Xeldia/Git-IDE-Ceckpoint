@@ -28,7 +28,7 @@ export DJANGO_LOG_LEVEL=DEBUG
 gunicorn config.wsgi:application --bind 127.0.0.1:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile - --log-level debug &
 
 # Wait for Django to be ready
-while ! nc -z 127.0.0.1 8000; do
+while ! nc -z localhost 8000; do
   echo "Waiting for Django to be ready..."
   sleep 2
 done
@@ -46,7 +46,7 @@ while ! nc -z localhost 8000 2>/dev/null; do
 done
 
 # Wait for Java WebSocket
-while ! nc -z localhost 10000 2>/dev/null; do
+while ! nc -z localhost 8080 2>/dev/null; do
     echo "Waiting for Java WebSocket to be ready..."
     sleep 2
 done
