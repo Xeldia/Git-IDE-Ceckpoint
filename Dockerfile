@@ -11,6 +11,9 @@ RUN apt-get update && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+# Set environment variables
+ENV DEBUG=True
+
 # Set working directory
 WORKDIR /app
 
