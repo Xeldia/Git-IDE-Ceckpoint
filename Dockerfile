@@ -25,9 +25,18 @@ RUN mkdir -p /app/java-executor-server/temp
 # Expose ports
 EXPOSE 8000 8080
 
-# Copy startup script
-COPY start.sh /app/start.sh
-RUN chmod +x /app/start.sh
+# Set up entrypoint script
+RUN echo '#!/bin/bash\n\
+cp /app/nginx.conf /etc/nginx/nginx.conf\n\
+mkdir -p /run/nginx\n\
+cd /app/java-executor-server\n\
+node server.js &\n\
+cd /app\n\
+python3 manage.py migrate --noinput\n\
+python3 manage.py collectstatic --noinput\n\
+gunicorn config.wsgi:application --bind 0.0.0.0:8000 &\n\
+nginx -g "daemon off;"\n\
+' > /app/entrypoint.sh && chmod +x /app/entrypoint.sh
 
-# Start both services
-CMD ["/app/start.sh"]
+# Start services
+CMD ["/app/entrypoint.sh"]
