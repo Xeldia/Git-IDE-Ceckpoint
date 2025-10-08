@@ -31,8 +31,8 @@ WORKDIR /app
 # Create temp directory for Java executor
 RUN mkdir -p /app/java-executor-server/temp
 
-# Expose ports
-EXPOSE 80 10000
+# Expose port (Render requires port 10000)
+EXPOSE 10000
 
 # Copy startup scripts
 COPY start.sh /app/start.sh

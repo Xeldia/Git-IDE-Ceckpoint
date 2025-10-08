@@ -1,7 +1,10 @@
-#!/bin/bash
+﻿#!/bin/bash
 set -e
 
-echo "=== Starting Health Check ==="
+echo "=echo "Java WebSocket (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
+echo "Nginx (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
+
+# Check Djangotarting Health Check ==="
 
 # Function to check a service
 check_service() {
@@ -14,10 +17,10 @@ check_service() {
     echo "$service returned status: $response (expected $expected)"
     
     if [ "$response" != "$expected" ]; then
-        echo "❌ $service check failed!"
+        echo "âŒ $service check failed!"
         return 1
     else
-        echo "✅ $service check passed!"
+        echo "âœ… $service check passed!"
         return 0
     fi
 }
@@ -38,12 +41,12 @@ fi
 
 # Check WebSocket
 if ! nc -z 127.0.0.1 10000; then
-    echo "❌ WebSocket service check failed!"
+    echo "âŒ WebSocket service check failed!"
     echo "WebSocket logs:"
     tail -n 50 /var/log/websocket.log 2>/dev/null || echo "No WebSocket logs found"
     exit 1
 else
-    echo "✅ WebSocket service check passed!"
+    echo "âœ… WebSocket service check passed!"
 fi
 
 # Check Nginx

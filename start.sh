@@ -1,4 +1,4 @@
-#!/bin/bash
+﻿#!/bin/bash
 set -ex  # Stop script if any command fails and print each command
 
 echo "=== Environment Info ==="
@@ -25,10 +25,10 @@ python3 manage.py collectstatic --noinput -v 2
 
 echo "Starting Django application..."
 export DJANGO_LOG_LEVEL=DEBUG
-gunicorn config.wsgi:application --bind 0.0.0.0:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile - --log-level debug &
+gunicorn config.wsgi:application --bind 127.0.0.1:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile - --log-level debug &
 
 # Wait for Django to be ready
-while ! nc -z localhost 8000; do
+while ! nc -z 127.0.0.1 8000; do
   echo "Waiting for Django to be ready..."
   sleep 2
 done
