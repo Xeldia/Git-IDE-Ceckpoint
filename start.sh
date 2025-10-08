@@ -19,5 +19,9 @@ python3 manage.py collectstatic --noinput
 # Start Gunicorn in the background
 gunicorn config.wsgi:application --bind 0.0.0.0:8000 &
 
+# Wait for Gunicorn to initialize (5 seconds)
+echo "Waiting for Gunicorn to initialize..."
+sleep 5
+
 # Finally, start Nginx in the foreground (so container stays alive)
 nginx -g "daemon off;"
