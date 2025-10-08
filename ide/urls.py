@@ -3,6 +3,7 @@ from . import views
 from .views import chat_view
 
 urlpatterns = [
+    path("health/", views.health, name="health"),
     path("", views.index, name="index"),
     path("python-ide/", views.python_ide, name="python_ide"),
     path("java-ide/", views.java_ide, name="java_ide"),

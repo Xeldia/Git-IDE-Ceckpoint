@@ -1,11 +1,23 @@
 from django.shortcuts import render
 from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.conf import settings
 import json
 import requests
 import logging
+import os
 
 logger = logging.getLogger(__name__)
+
+def health(request):
+    """Health check endpoint"""
+    return JsonResponse({
+        'status': 'healthy',
+        'debug': settings.DEBUG,
+        'static_root': settings.STATIC_ROOT,
+        'base_dir': str(settings.BASE_DIR),
+        'template_dirs': settings.TEMPLATES[0]['DIRS']
+    })
 
 def chat_view(request):
     logger.info("Accessing chat view")
