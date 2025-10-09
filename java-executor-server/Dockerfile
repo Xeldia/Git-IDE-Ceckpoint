@@ -1,7 +1,11 @@
 FROM node:18-slim
 
-# Install OpenJDK
-RUN apt-get update && apt-get install -y openjdk-17-jdk && rm -rf /var/lib/apt/lists/*
+# Install OpenJDK for Java compilation and execution
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends \
+    openjdk-17-jdk-headless && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
 
 # Set working directory
 WORKDIR /app
@@ -12,14 +16,19 @@ COPY package*.json ./
 # Install dependencies
 RUN npm install --production
 
-# Copy server files
+# Copy source code
 COPY . .
 
-# Create temp directory
+# Create temp directory for Java files
 RUN mkdir -p temp
 
-# Expose port
-EXPOSE 8080
+# Environment variables
+ENV PORT=8080 \
+    HOST=0.0.0.0 \
+    MAX_EXECUTION_TIME=30000
 
-# Start server
+# Expose port
+EXPOSE $PORT
+
+# Start the server
 CMD ["node", "server.js"]
