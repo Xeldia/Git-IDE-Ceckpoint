@@ -56,9 +56,10 @@ ENV HOST=0.0.0.0
 # Copy startup scripts
 COPY start.sh /app/start.sh
 COPY healthcheck.sh /app/healthcheck.sh
+COPY render-nginx.sh /app/render-nginx.sh
 
 # Make scripts executable
-RUN chmod +x /app/start.sh /app/healthcheck.sh
+RUN chmod +x /app/start.sh /app/healthcheck.sh /app/render-nginx.sh
 
 # Start services
 CMD ["/app/start.sh"]

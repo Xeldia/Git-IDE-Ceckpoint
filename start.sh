@@ -55,4 +55,4 @@ while ! nc -z localhost 8080 2>/dev/null; do
 done
 
 echo "All services are ready! Starting Nginx..."
-exec nginx -g "daemon off;"
+/app/render-nginx.sh
