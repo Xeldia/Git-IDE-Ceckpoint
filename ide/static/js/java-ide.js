@@ -282,3 +282,26 @@ public class Main {
 
   writeConsole("Java IDE Ready! Press ▶ Run or Ctrl+Enter to execute.", "success");
 })();
+
+(function() {
+  window.addEventListener('error', function(event) {
+    console.error('Global JS Error:', event.message, 'at', event.filename + ':' + event.lineno);
+    const consoleOutput = document.getElementById("console-output");
+    if (consoleOutput) {
+      const errLine = document.createElement("div");
+      errLine.textContent = `JS Error: ${event.message} at ${event.filename}:${event.lineno}`;
+      errLine.style.color = "#ef4444";
+      consoleOutput.appendChild(errLine);
+    }
+  });
+  window.addEventListener('unhandledrejection', function(event) {
+    console.error('Unhandled Promise Rejection:', event.reason);
+    const consoleOutput = document.getElementById("console-output");
+    if (consoleOutput) {
+      const errLine = document.createElement("div");
+      errLine.textContent = `Unhandled Promise Rejection: ${event.reason}`;
+      errLine.style.color = "#ef4444";
+      consoleOutput.appendChild(errLine);
+    }
+  });
+})();
