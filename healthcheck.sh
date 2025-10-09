@@ -35,9 +35,9 @@ check_service() {
 
 # Check if services are listening
 echo "Checking ports..."
-echo "Django (8000): $(nc -zv 127.0.0.1 8000 2>&1)"
-echo "WebSocket (8080): $(nc -zv 127.0.0.1 8080 2>&1)"
-echo "Nginx (10000): $(nc -zv 127.0.0.1 10000 2>&1)"
+echo "Django ($DJANGO_PORT): $(nc -zv 127.0.0.1 $DJANGO_PORT 2>&1)"
+echo "WebSocket ($WS_PORT): $(nc -zv 127.0.0.1 $WS_PORT 2>&1)"
+echo "Nginx ($PORT): $(nc -zv 127.0.0.1 $PORT 2>&1)"
 
 # Check Django
 if ! check_service "Django" "http://127.0.0.1:8000/" "200"; then

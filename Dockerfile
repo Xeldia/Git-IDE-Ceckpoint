@@ -31,8 +31,14 @@ WORKDIR /app
 # Create temp directory for Java executor
 RUN mkdir -p /app/java-executor-server/temp
 
-# Expose port (Render requires port 10000)
-EXPOSE 10000
+# Expose the port that will be used
+EXPOSE $PORT
+
+# Environment variables for render
+ENV PORT=10000
+ENV WS_PORT=8080
+ENV DJANGO_PORT=8000
+ENV HOST=0.0.0.0
 
 # Copy startup scripts
 COPY start.sh /app/start.sh

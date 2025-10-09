@@ -25,10 +25,10 @@ python3 manage.py collectstatic --noinput -v 2
 
 echo "Starting Django application..."
 export DJANGO_LOG_LEVEL=DEBUG
-gunicorn config.wsgi:application --bind 127.0.0.1:8000 --workers 3 --timeout 120 --access-logfile - --error-logfile - --log-level debug &
+gunicorn config.wsgi:application --bind $HOST:$DJANGO_PORT --workers 3 --timeout 120 --access-logfile - --error-logfile - --log-level debug &
 
 # Wait for Django to be ready
-while ! nc -z localhost 8000; do
+while ! nc -z localhost $DJANGO_PORT; do
   echo "Waiting for Django to be ready..."
   sleep 2
 done
@@ -36,7 +36,7 @@ done
 echo "Starting Java executor server..."
 cd /app/java-executor-server
 export JAVA_OPTS="-Xmx200m -XX:MaxRAMPercentage=40"
-PORT=8080 node server.js &
+PORT=$WS_PORT HOST=$HOST node server.js &
 
 echo "Waiting for services to be ready..."
 # Wait for Django
