@@ -9,7 +9,8 @@ RUN apt-get update && \
     python3-minimal \
     python3-pip \
     python3-dev \
-    build-essential && \
+    build-essential \
+    gettext-base && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
