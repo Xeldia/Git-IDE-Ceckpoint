@@ -8,10 +8,13 @@ echo "Current directory: $(pwd)"
 echo "Directory contents: $(ls -la)"
 echo "======================="
 
+echo "Setting up permissions and directories..."
+mkdir -p /app/staticfiles /app/media
+chown -R www-data:www-data /app/staticfiles /app/media
+
 echo "Setting up Nginx configuration..."
 cp /app/nginx.conf /etc/nginx/nginx.conf
 mkdir -p /run/nginx
-mkdir -p /app/static  # Create static directory to avoid warning
 
 echo "Running Django migrations..."
 cd /app

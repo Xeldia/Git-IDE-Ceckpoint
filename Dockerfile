@@ -7,9 +7,14 @@ RUN apt-get update && \
     nginx \
     openjdk-17-jdk-headless \
     python3-minimal \
-    python3-pip && \
+    python3-pip \
+    python3-dev \
+    build-essential && \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
+
+# Create required directories
+RUN mkdir -p /app/staticfiles /app/media /run/nginx
 
 # Set working directory and environment variables
 WORKDIR /app
@@ -18,7 +23,10 @@ ENV PORT=10000 \
     DJANGO_PORT=8000 \
     HOST=0.0.0.0 \
     PYTHONUNBUFFERED=1 \
-    PYTHONDONTWRITEBYTECODE=1
+    PYTHONDONTWRITEBYTECODE=1 \
+    STATIC_ROOT=/app/staticfiles \
+    MEDIA_ROOT=/app/media \
+    DJANGO_SETTINGS_MODULE=config.settings
 
 # Install Python dependencies first (for better caching)
 COPY requirements.txt .
